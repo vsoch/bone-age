@@ -102,7 +102,7 @@ def fixed_crops(image):
 
         # Per crop mean subtraction
         outputs = [crop - tf.reduce_mean(crop) for crop in fixed_crops]
-    return tf.pack(outputs)
+    return tf.stack(outputs)
 
 
 def inference(x, is_training,
@@ -306,7 +306,7 @@ def _get_variable(name,
         regularizer = tf.contrib.layers.l2_regularizer(weight_decay)
     else:
         regularizer = None
-    collections = [tf.GraphKeys.VARIABLES, RESNET_VARIABLES]
+    collections = [tf.GraphKeys.GLOBAL_VARIABLES, RESNET_VARIABLES]
     if name.split('_')[0] == 'moving':
         collections.append(tf.GraphKeys.MOVING_AVERAGE_VARIABLES)
     return tf.get_variable(name,
